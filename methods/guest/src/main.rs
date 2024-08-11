@@ -12,34 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use chess_core::Inputs;
+use ntbnts_core::Inputs;
 use risc0_zkvm::guest::env;
-use shakmaty::{fen::Fen, san::San, CastlingMode, Chess, FromSetup, Move, Position, Setup};
 
-fn main() {
-    let inputs: Inputs = env::read();
-use std::*;
-use std::collections::HashMap;
 pub fn main() {
-	let inputs: Inputs = env::red();
+	let inputs: Inputs = env::read();
 	let allplayer1input : Vec::<u64> = inputs.allplayer1input;
 	let allplayer2input : Vec::<u64> = inputs.allplayer2input;
 	let winner : String = inputs.winner;
-    env::commit(&allplayer1input)
+    env::commit(&winner);
 	let mut lastinput = 1;
 	let mut i = 0;
-	while true {
-	       let player1 = i32::from(allplayer1input[i]);
+    let mut won : String;
+	loop {
+	       let player1 = allplayer1input[i];
 	if lastinput > player1||player1 > (lastinput*2) {
-	let won : String = "player 2";
+	won = "player 2".to_string();
 	break;
 	}
 	lastinput = player1;
-	let player2 = i32::from(allplayer2input[i]);
+	let player2 = allplayer2input[i];
 	i += 1;
 	if lastinput > player2||player2 > (lastinput*2) {
-	let won : String = "player 1";
-    env::commit(&allplayer1input)
+	 won = "player 1".to_string();
 	break;
 	}
 	   lastinput = player2;

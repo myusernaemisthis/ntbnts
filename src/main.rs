@@ -18,9 +18,9 @@ use risc0_zkvm::{default_prover, ExecutorEnv, Receipt};
 
 fn main() {
     let inputs = Inputs {
-        allplayer1input:[2, 7, 17, 28] ,
-        allplayer2input:[4, 10, 34] ,
-        winner: "player 2",:
+        allplayer1input:[2, 7, 17, 28].to_vec() ,
+        allplayer2input:[4, 10, 34].to_vec() ,
+        winner: "player 2".to_string(),
     };
 
     let receipt = ntbnts(&inputs);
@@ -28,7 +28,7 @@ fn main() {
     // Verify receipt and parse it for committed data
     receipt.verify(NTBNTSREPLAY_ID).unwrap();
     let committed_state: String = receipt.journal.decode().unwrap();
-    assert_eq!(inputs.allplayer1input, committed_state);
+    assert_eq!(inputs.winner, committed_state);
 
     println!(
         "Played1 platdyed {:?} and {} won",
