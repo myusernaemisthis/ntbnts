@@ -16,6 +16,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub struct Inputs {
-    pub board: String,
-    pub mv: String,
+    pub allplayer1input: Vec::<u64>,
+    pub allplayer2input: Vec::<u64>,
+    pub winner: String,
 }

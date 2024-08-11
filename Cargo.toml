@@ -1,11 +1,11 @@
 [package]
-name = "chess"
+name = "ntbnts"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
-chess-core = { path = "core" }
-chess-methods = { path = "methods" }
+ntbnts-core = { path = "core" }
+ntbnts-methods = { path = "methods" }
 clap = { version = "4.0", features = ["derive"] }
 risc0-zkvm = "1.0"
 shakmaty = "0.27"

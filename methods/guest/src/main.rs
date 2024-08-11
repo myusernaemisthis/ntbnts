@@ -18,14 +18,31 @@ use shakmaty::{fen::Fen, san::San, CastlingMode, Chess, FromSetup, Move, Positio
 
 fn main() {
     let inputs: Inputs = env::read();
-    let mv: String = inputs.mv;
-    let initial_state: String = inputs.board;
-    env::commit(&initial_state);
-
-    let setup = Setup::from(Fen::from_ascii(initial_state.as_bytes()).unwrap());
-    let pos = Chess::from_setup(setup, CastlingMode::Standard).unwrap();
-
-    let mv: Move = mv.parse::<San>().unwrap().to_move(&pos).unwrap();
-    let pos = pos.play(&mv).unwrap();
-    assert!(pos.is_checkmate());
+use std::*;
+use std::collections::HashMap;
+pub fn main() {
+	let inputs: Inputs = env::red();
+	let allplayer1input : Vec::<u64> = inputs.allplayer1input;
+	let allplayer2input : Vec::<u64> = inputs.allplayer2input;
+	let winner : String = inputs.winner;
+    env::commit(&allplayer1input)
+	let mut lastinput = 1;
+	let mut i = 0;
+	while true {
+	       let player1 = i32::from(allplayer1input[i]);
+	if lastinput > player1||player1 > (lastinput*2) {
+	let won : String = "player 2";
+	break;
+	}
+	lastinput = player1;
+	let player2 = i32::from(allplayer2input[i]);
+	i += 1;
+	if lastinput > player2||player2 > (lastinput*2) {
+	let won : String = "player 1";
+    env::commit(&allplayer1input)
+	break;
+	}
+	   lastinput = player2;
+	}
+	assert!(won == winner);
 }

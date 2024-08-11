@@ -12,47 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use chess_core::Inputs;
-use chess_methods::{CHECKMATE_ELF, CHECKMATE_ID};
-use clap::Parser;
+use ntbnts_core::Inputs;
+use ntbnts_methods::{NTBNTSREPLAY_ELF, NTBNTSREPLAY_ID};
 use risc0_zkvm::{default_prover, ExecutorEnv, Receipt};
-use shakmaty::{fen::Fen, CastlingMode, Chess, FromSetup, Position, Setup};
-
-#[derive(Parser)]
-struct Cli {
-    #[arg(id = "MOVE", default_value = "Qxf7")]
-    mv: String,
-
-    #[arg(default_value = "r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4")]
-    board: String,
-}
 
 fn main() {
-    let args = Cli::parse();
-
     let inputs = Inputs {
-        board: args.board,
-        mv: args.mv,
+        allplayer1input:[2, 7, 17, 28] ,
+        allplayer2input:[4, 10, 34] ,
+        winner: "player 2",:
     };
 
-    let receipt = chess(&inputs);
+    let receipt = ntbnts(&inputs);
 
     // Verify receipt and parse it for committed data
-    receipt.verify(CHECKMATE_ID).unwrap();
+    receipt.verify(NTBNTSREPLAY_ID).unwrap();
     let committed_state: String = receipt.journal.decode().unwrap();
-    assert_eq!(inputs.board, committed_state);
-    let fen = Fen::from_ascii(committed_state.as_bytes()).unwrap();
-    let setup = Setup::from(fen);
-    let pos = Chess::from_setup(setup, CastlingMode::Standard).unwrap();
+    assert_eq!(inputs.allplayer1input, committed_state);
 
     println!(
-        "There is a checkmate for {:?} in this position:\n{:?}",
-        pos.turn(),
-        pos.board()
+        "Played1 platdyed {:?} and {} won",
+        committed_state,
+        inputs.winner
     );
 }
 
-fn chess(inputs: &Inputs) -> Receipt {
+fn ntbnts(inputs: &Inputs) -> Receipt {
     let env = ExecutorEnv::builder()
         .write(inputs)
         .unwrap()
@@ -63,24 +48,5 @@ fn chess(inputs: &Inputs) -> Receipt {
     let prover = default_prover();
 
     // Produce a receipt by proving the specified ELF binary.
-    prover.prove(env, CHECKMATE_ELF).unwrap().receipt
-}
-
-#[cfg(test)]
-mod tests {
-    use chess_core::Inputs;
-
-    use crate::chess;
-
-    #[test]
-    fn main() {
-        const TEST_BOARD: &str =
-            "r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4";
-        const TEST_MOVE: &str = "Qxf7";
-
-        chess(&Inputs {
-            board: String::from(TEST_BOARD),
-            mv: String::from(TEST_MOVE),
-        });
-    }
+    prover.prove(env, NTBNTSREPLAY_ELF).unwrap().receipt
 }
