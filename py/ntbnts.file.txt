@@ -1,0 +1,37 @@
+lastinput = 1
+allplayer2input = []
+allplayer1input = []
+
+while True:
+	player1 = int(input("enter number player1"))
+	allplayer1input.append(player1)
+	if lastinput > player1 or player1 > lastinput * 2:
+		print("player 2")
+		print(allplayer1input)
+		print(allplayer2input)
+		break	
+	lastinput = player1
+	player2 = int(input("enter number player2"))
+	allplayer2input.append(player2)
+	if lastinput > player2 or player2 > lastinput * 2:
+		print("player 1")
+		print(allplayer1input)
+		print(allplayer2input)
+		break
+	lastinput = player2
+
+def  playgame(allplayer1input, allplayer2input):
+	lastinput = 1
+	i = 0
+	while True:
+		player1 = int(allplayer1input[i])
+		if lastinput > player1 or player1 > lastinput * 2:
+			print("player 2")
+			break	
+		lastinput = player1
+		player2 = int(allplayer2input[i])
+		i += 1
+		if lastinput > player2 or player2 > lastinput * 2:
+			print("player 1")
+			break
+		lastinput = player2
