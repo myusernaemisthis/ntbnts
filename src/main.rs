@@ -31,9 +31,8 @@ fn main() {
     assert_eq!(inputs.winner, committed_state);
 
     println!(
-        "Played1 platdyed {:?} and {} won",
+        "Player {} did win the game",
         committed_state,
-        inputs.winner
     );
 }
 
